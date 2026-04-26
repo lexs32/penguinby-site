@@ -65,7 +65,7 @@ function TierButton({ tier, selected, onClick }) {
   );
 }
 
-function PricingCard({ product, onDetails, onBuy }) {
+function PricingCard({ product, onDetails, onBuy, onPreview }) {
   const [tierIndex, setTierIndex] = useState(1);
   const tier = product.pricing[tierIndex];
 
@@ -81,19 +81,28 @@ function PricingCard({ product, onDetails, onBuy }) {
       <div className="absolute right-[-8rem] top-[-8rem] h-64 w-64 rounded-full bg-white/[0.045] blur-[90px]" />
       <div className="relative z-10">
         <div className="mb-6 overflow-hidden rounded-2xl border border-white/[0.08] bg-[#101113]">
-          <div className="relative h-[220px]">
-            <img src={product.thumbnail} alt={`${product.name} preview`} className="h-full w-full object-cover opacity-80 transition-transform duration-500 hover:scale-105" />
+          <button type="button" onClick={() => onPreview(product.thumbnail)} className="relative block h-[220px] w-full text-left" aria-label={`Open ${product.name} image`}>
+            <img
+              src={product.thumbnail}
+              alt={`${product.name} preview`}
+              className="h-full w-full object-cover opacity-85 grayscale contrast-125 brightness-95 transition-transform duration-500 hover:scale-105"
+            />
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#101113]/10 to-[#0c0c0e]" />
-          </div>
+          </button>
         </div>
         <div className="mb-7 flex items-start justify-between gap-4">
           <div>
             <h3 className="font-orbitron text-[2rem] font-black leading-none text-white">{product.name}</h3>
             <p className="mt-4 max-w-[520px] text-[0.98rem] leading-7 text-[#8A9BB0]">{product.desc}</p>
           </div>
-          <div className="hidden rounded-2xl border border-white/[0.08] bg-white/[0.03] p-3 text-primary sm:block">
+          <button
+            type="button"
+            onClick={() => onPreview(product.thumbnail)}
+            className="hidden rounded-2xl border border-white/[0.08] bg-white/[0.03] p-3 text-primary transition-colors hover:bg-white/[0.08] sm:block"
+            aria-label={`Preview ${product.name} image`}
+          >
             <Eye size={24} />
-          </div>
+          </button>
         </div>
 
         <div className="mb-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
@@ -137,6 +146,7 @@ function PricingCard({ product, onDetails, onBuy }) {
 export default function Store() {
   const [modalData, setModalData] = useState(null);
   const [emailGate, setEmailGate] = useState(null);
+  const [previewImage, setPreviewImage] = useState(null);
 
   const openEmailGate = (product, tierIdx) => setEmailGate({ product, tier: product.pricing[tierIdx] });
   const modalProduct = useMemo(() => {
@@ -164,7 +174,13 @@ export default function Store() {
 
           <div className="grid gap-6 xl:grid-cols-2">
             {products.map((product) => (
-              <PricingCard key={product.id} product={product} onDetails={(p, tierIdx) => setModalData({ product: p, tierIdx })} onBuy={openEmailGate} />
+              <PricingCard
+                key={product.id}
+                product={product}
+                onDetails={(p, tierIdx) => setModalData({ product: p, tierIdx })}
+                onBuy={openEmailGate}
+                onPreview={setPreviewImage}
+              />
             ))}
           </div>
         </div>
@@ -187,9 +203,14 @@ export default function Store() {
               </button>
             </div>
 
-            <div className="mb-7 overflow-hidden rounded-2xl border border-white/[0.08] bg-black/30">
-              <img src={modalProduct.thumbnail} alt={`${modalProduct.name} interface preview`} className="h-[260px] w-full object-cover opacity-85" />
-            </div>
+            <button
+              type="button"
+              onClick={() => setPreviewImage(modalProduct.thumbnail)}
+              className="mb-7 block w-full overflow-hidden rounded-2xl border border-white/[0.08] bg-black/30 text-left"
+              aria-label={`Open ${modalProduct.name} preview`}
+            >
+              <img src={modalProduct.thumbnail} alt={`${modalProduct.name} interface preview`} className="h-[260px] w-full object-cover opacity-90 grayscale contrast-125" />
+            </button>
 
             <div className="mb-7 grid grid-cols-2 gap-3 sm:grid-cols-4">
               {modalProduct.details.map((detail) => (
@@ -212,12 +233,15 @@ export default function Store() {
             {modalProduct.showcase?.length > 0 && (
               <div className="mb-7 grid grid-cols-3 gap-3">
                 {modalProduct.showcase.map((src, index) => (
-                  <img
+                  <button
                     key={`${src}-${index}`}
-                    src={src}
-                    alt={`${modalProduct.name} proof ${index + 1}`}
-                    className="h-[96px] w-full rounded-xl border border-white/[0.08] object-cover opacity-85"
-                  />
+                    type="button"
+                    onClick={() => setPreviewImage(src)}
+                    className="overflow-hidden rounded-xl border border-white/[0.08]"
+                    aria-label={`Open ${modalProduct.name} proof ${index + 1}`}
+                  >
+                    <img src={src} alt={`${modalProduct.name} proof ${index + 1}`} className="h-[96px] w-full object-cover opacity-90 transition duration-200 hover:scale-105" />
+                  </button>
                 ))}
               </div>
             )}
@@ -237,6 +261,22 @@ export default function Store() {
       )}
 
       {emailGate && <EmailGateModal product={emailGate.product} tier={emailGate.tier} onClose={() => setEmailGate(null)} />}
+
+      {previewImage && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 p-5 backdrop-blur-sm" onClick={() => setPreviewImage(null)}>
+          <div className="relative w-full max-w-[1080px]" onClick={(event) => event.stopPropagation()}>
+            <button
+              type="button"
+              onClick={() => setPreviewImage(null)}
+              className="absolute right-3 top-3 z-10 rounded-lg border border-white/15 bg-black/55 p-2 text-white/80 transition-colors hover:text-white"
+              aria-label="Close preview"
+            >
+              <X size={18} />
+            </button>
+            <img src={previewImage} alt="Preview" className="max-h-[85vh] w-full rounded-2xl border border-white/10 object-contain shadow-[0_30px_100px_rgba(0,0,0,0.6)]" />
+          </div>
+        </div>
+      )}
     </>
   );
 }
