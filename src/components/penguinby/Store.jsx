@@ -7,7 +7,8 @@ const products = [
   {
     id: "arc",
     name: "Arc Raiders Pro",
-    thumbnail: "https://i.postimg.cc/wxsYgZbw/download.png",
+    thumbnail: "https://i.postimg.cc/pLBt3jcs/download.png",
+    imagePosition: "center 30%",
     showcase: ["https://i.postimg.cc/cLQ8Ffs7/image.png", "https://i.postimg.cc/nVgjZ3rw/image.png", "https://i.postimg.cc/nVgjZ3rw/image.png"],
     desc: "Full access to the Arc Raiders control suite with live updates, guided setup, and priority support.",
     pricing: [
@@ -26,7 +27,8 @@ const products = [
   {
     id: "r6",
     name: "R6 Pro",
-    thumbnail: "https://i.postimg.cc/pLBt3jcs/download.png",
+    thumbnail: "https://i.postimg.cc/wxsYgZbw/download.png",
+    imagePosition: "center 24%",
     showcase: ["https://i.postimg.cc/cC8pQxQC/image.png", "https://i.postimg.cc/VsDgRQ7s/image.png", "https://i.postimg.cc/1XjpZSTt/image.png"],
     desc: "A compact premium package built for fast fulfillment, clean setup, and reliable customer access.",
     pricing: [
@@ -76,18 +78,20 @@ function PricingCard({ product, onDetails, onBuy, onPreview }) {
       whileHover={{ y: -8 }}
       viewport={{ once: true }}
       transition={{ type: "spring", stiffness: 240, damping: 24 }}
-      className="relative overflow-hidden rounded-3xl border border-white/[0.09] bg-[#0c0c0e]/82 p-6 shadow-[0_30px_110px_rgba(0,0,0,0.36)] backdrop-blur-xl"
+      className="relative overflow-hidden rounded-3xl border border-white/[0.09] bg-[#0c0c0e]/82 p-5 shadow-[0_30px_110px_rgba(0,0,0,0.36)] backdrop-blur-xl sm:p-6"
     >
       <div className="absolute right-[-8rem] top-[-8rem] h-64 w-64 rounded-full bg-white/[0.045] blur-[90px]" />
       <div className="relative z-10">
-        <div className="mb-6 overflow-hidden rounded-2xl border border-white/[0.08] bg-[#101113]">
-          <button type="button" onClick={() => onPreview(product.thumbnail)} className="relative block h-[220px] w-full text-left" aria-label={`Open ${product.name} image`}>
+        <div className="mb-5 overflow-hidden rounded-2xl border border-white/[0.08] bg-[#070809]">
+          <button type="button" onClick={() => onPreview(product.thumbnail)} className="group relative block h-[164px] w-full text-left sm:h-[178px]" aria-label={`Open ${product.name} image`}>
             <img
               src={product.thumbnail}
               alt={`${product.name} preview`}
-              className="h-full w-full object-cover opacity-85 grayscale contrast-125 brightness-95 transition-transform duration-500 hover:scale-105"
+              style={{ objectPosition: product.imagePosition }}
+              className="absolute inset-0 h-full w-full object-cover opacity-90 grayscale contrast-125 brightness-90 transition-transform duration-700 group-hover:scale-[1.04]"
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#101113]/10 to-[#0c0c0e]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_10%,rgba(255,255,255,0.16),transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.08),rgba(0,0,0,0.10)_34%,rgba(0,0,0,0.88))]" />
+            <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#0c0c0e] to-transparent" />
           </button>
         </div>
         <div className="mb-7 flex items-start justify-between gap-4">
@@ -209,7 +213,12 @@ export default function Store() {
               className="mb-7 block w-full overflow-hidden rounded-2xl border border-white/[0.08] bg-black/30 text-left"
               aria-label={`Open ${modalProduct.name} preview`}
             >
-              <img src={modalProduct.thumbnail} alt={`${modalProduct.name} interface preview`} className="h-[260px] w-full object-cover opacity-90 grayscale contrast-125" />
+              <img
+                src={modalProduct.thumbnail}
+                alt={`${modalProduct.name} interface preview`}
+                style={{ objectPosition: modalProduct.imagePosition }}
+                className="h-[260px] w-full object-cover opacity-90 grayscale contrast-125 brightness-90"
+              />
             </button>
 
             <div className="mb-7 grid grid-cols-2 gap-3 sm:grid-cols-4">
