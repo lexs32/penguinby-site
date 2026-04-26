@@ -9,6 +9,7 @@ import PageNotFound from "@/lib/PageNotFound";
 import UserNotRegisteredError from "@/components/UserNotRegisteredError";
 import Home from "@/pages/Home";
 import Admin from "@/pages/Admin";
+import ProductPage from "@/pages/ProductPage";
 
 const DefaultFallback = () => (
   <div className="fixed inset-0 flex items-center justify-center">
@@ -32,6 +33,7 @@ const AuthenticatedApp = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/product/:id" element={<ProductPage />} />
       <Route path="/admin" element={<Admin />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
