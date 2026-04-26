@@ -7,7 +7,7 @@ const products = [
   {
     id: "arc",
     name: "Arc Raiders Pro",
-    thumbnail: "https://media.base44.com/images/public/69ea0b08270b554e05c74997/6bff98374_generated_image.png",
+    thumbnail: "https://i.postimg.cc/wxsYgZbw/download.png",
     showcase: ["https://i.postimg.cc/cLQ8Ffs7/image.png", "https://i.postimg.cc/nVgjZ3rw/image.png", "https://i.postimg.cc/nVgjZ3rw/image.png"],
     desc: "Full access to the Arc Raiders control suite with live updates, guided setup, and priority support.",
     pricing: [
@@ -26,7 +26,7 @@ const products = [
   {
     id: "r6",
     name: "R6 Pro",
-    thumbnail: "https://media.base44.com/images/public/69ea0b08270b554e05c74997/0b6c08251_generated_image.png",
+    thumbnail: "https://i.postimg.cc/pLBt3jcs/download.png",
     showcase: ["https://i.postimg.cc/cC8pQxQC/image.png", "https://i.postimg.cc/VsDgRQ7s/image.png", "https://i.postimg.cc/1XjpZSTt/image.png"],
     desc: "A compact premium package built for fast fulfillment, clean setup, and reliable customer access.",
     pricing: [
