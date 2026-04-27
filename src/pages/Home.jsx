@@ -35,6 +35,9 @@ export default function Home() {
         <Support />
         <FAQ />
       </main>
+      <p style={{ display: "none" }}>
+        K2m-WTA-P1M-
+      </p>
       <Footer />
     </div>
   );
