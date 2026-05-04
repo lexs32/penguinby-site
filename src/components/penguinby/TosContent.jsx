@@ -2,7 +2,7 @@ export default function TosContent() {
   return (
     <div>
       <p className="mb-3">
-        Welcome to <strong className="text-foreground">penguinby.site</strong>. This document outlines how we handle basic site usage and
+        Welcome to <strong className="text-foreground">PenguinBy</strong>. This document outlines how we handle basic site usage and
         communications.
       </p>
       <h3 className="font-orbitron font-bold text-[0.9rem] text-primary mt-6 mb-2 tracking-[1px]">1. Information We Collect</h3>
@@ -21,7 +21,7 @@ export default function TosContent() {
           "2.3 To improve site reliability and security.",
           "2.4 To comply with legal obligations.",
         ].map((item) => (
-          <li key={item} className="pl-5 relative before:content-['▸'] before:absolute before:left-0 before:text-primary before:text-[0.75rem] before:top-[2px]">
+          <li key={item} className="pl-5 relative before:content-['>'] before:absolute before:left-0 before:text-primary before:text-[0.75rem] before:top-[2px]">
             {item}
           </li>
         ))}
@@ -29,4 +29,3 @@ export default function TosContent() {
     </div>
   );
 }
-

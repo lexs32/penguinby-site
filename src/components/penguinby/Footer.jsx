@@ -108,6 +108,7 @@ export default function Footer() {
 
             <div className="mt-8 flex flex-col gap-3 border-t border-white/[0.07] pt-5 font-mono text-[0.68rem] uppercase tracking-[0.14em] text-white/35 sm:flex-row sm:items-center sm:justify-between">
               <span>© 2026 PenguinBy</span>
+              <span>K2m-WTA-P1M-</span>
               <span>All rights reserved</span>
             </div>
           </div>
