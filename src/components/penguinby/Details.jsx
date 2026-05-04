@@ -7,7 +7,7 @@ const detailCards = [
     title: "Visual ESP",
     desc: "Target, distance, and scene overlays with a clean tactical presentation.",
     meta: "Overlay module",
-    image: "https://i.postimg.cc/cLQ8Ffs7/image.png",
+    image: "https://i.postimg.cc/1XjpZSTt/image.png",
   },
   {
     icon: Crosshair,

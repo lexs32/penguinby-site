@@ -2,7 +2,7 @@ export default function TosContent() {
   return (
     <div>
       <p className="mb-3">
-        Welcome to <strong className="text-foreground">penguinby.site</strong>. This document outlines how we handle basic site usage and
+        Welcome to <strong className="text-foreground">PenguinBy</strong>. This document outlines how we handle basic site usage and
         communications.
       </p>
       <h3 className="font-orbitron font-bold text-[0.9rem] text-primary mt-6 mb-2 tracking-[1px]">1. Information We Collect</h3>
