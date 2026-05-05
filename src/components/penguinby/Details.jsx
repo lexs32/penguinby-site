@@ -14,7 +14,7 @@ const detailCards = [
     title: "Aimbot Tuning",
     desc: "Smoothing, FOV, and profile controls tuned for different play styles.",
     meta: "Precision module",
-    image: "https://media.base44.com/images/public/69ea0b08270b554e05c74997/6bff98374_generated_image.png",
+    image: "https://i.postimg.cc/VsDgRQ7s/image.png",
   },
   {
     icon: Radar,

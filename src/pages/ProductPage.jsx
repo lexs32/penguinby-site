@@ -82,7 +82,7 @@ export default function ProductPage() {
               <div className="mt-6 grid grid-cols-3 gap-3">
                 {[
                   ["24/7", "Support"],
-                  ["Fast", "Delivery"],
+                  ["Instant", "Delivery"],
                   ["Live", "Updates"],
                 ].map(([value, label]) => (
                   <div key={label} className="rounded-xl border border-white/[0.08] bg-white/[0.025] px-3 py-3 text-center">

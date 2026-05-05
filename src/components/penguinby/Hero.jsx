@@ -113,7 +113,7 @@ export default function Hero() {
 
       <div className="mx-auto grid max-w-[1280px] items-center gap-16 lg:grid-cols-[0.92fr_1.08fr]">
         <div className="relative z-10 max-w-[720px] pl-0 lg:pl-8">
-          <h1 className="animate-hero-1 font-orbitron text-[3rem] font-black leading-[0.98] tracking-normal text-white sm:text-[4.9rem] lg:text-[6rem]">
+          <h1 className="animate-hero-1 font-orbitron text-[3rem] font-black leading-[1.05] tracking-normal text-white sm:text-[4.9rem] lg:text-[6rem]">
             Dominate
             <span className="mt-2 block bg-gradient-to-r from-white via-[#cfcfcf] to-[#747474] bg-clip-text text-transparent drop-shadow-[0_0_48px_rgba(255,255,255,0.12)]">
               in games.
