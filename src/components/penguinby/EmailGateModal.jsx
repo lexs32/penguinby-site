@@ -2,6 +2,33 @@ import React, { useState } from "react";
 import { X } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 
+const RATE_LIMIT_KEY = "penguinby_purchase_attempts";
+const MAX_ATTEMPTS = 5;
+const WINDOW_MS = 60_000;
+const COOLDOWN_MS = 2_000;
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function checkRateLimit() {
+  try {
+    const now = Date.now();
+    const raw = localStorage.getItem(RATE_LIMIT_KEY);
+    const attempts = raw ? JSON.parse(raw).filter((t) => now - t < WINDOW_MS) : [];
+    if (attempts.length >= MAX_ATTEMPTS) {
+      const wait = Math.ceil((WINDOW_MS - (now - attempts[0])) / 1000);
+      return { ok: false, message: `Too many attempts. Try again in ${wait}s.` };
+    }
+    if (attempts.length > 0 && now - attempts[attempts.length - 1] < COOLDOWN_MS) {
+      return { ok: false, message: "Please wait a moment before retrying." };
+    }
+    attempts.push(now);
+    localStorage.setItem(RATE_LIMIT_KEY, JSON.stringify(attempts));
+    return { ok: true };
+  } catch {
+    return { ok: true };
+  }
+}
+
 export default function EmailGateModal({ product, tier, onClose }) {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
@@ -9,9 +36,17 @@ export default function EmailGateModal({ product, tier, onClose }) {
 
   const handlePurchase = async (e) => {
     e.preventDefault();
+    if (loading) return;
+
     const normalized = email.toLowerCase().trim();
-    if (!normalized || !normalized.includes("@")) {
+    if (!normalized || !EMAIL_RE.test(normalized) || normalized.length > 254) {
       setError("Please enter a valid email address.");
+      return;
+    }
+
+    const rl = checkRateLimit();
+    if (!rl.ok) {
+      setError(rl.message);
       return;
     }
 

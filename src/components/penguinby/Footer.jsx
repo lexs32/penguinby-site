@@ -24,7 +24,7 @@ export default function Footer() {
     {
       label: "Discord",
       detail: "Fastest replies",
-      href: "#",
+      href: "https://discord.gg/HtSVra2rFS",
       icon: MessageCircle,
     },
     {
@@ -36,7 +36,7 @@ export default function Footer() {
     {
       label: "Ticket",
       detail: "Order support",
-      href: "#",
+      href: "https://discord.gg/yfGvWcpydN",
       icon: Headphones,
     },
   ];
@@ -93,6 +93,8 @@ export default function Footer() {
                     <a
                       key={label}
                       href={href}
+                      target={href.startsWith("mailto") ? undefined : "_blank"}
+                      rel="noopener noreferrer"
                       className="group rounded-2xl border border-white/[0.08] bg-black/20 p-4 no-underline transition-all duration-300 hover:-translate-y-1 hover:border-white/18 hover:bg-white/[0.055]"
                     >
                       <span className="mb-5 flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.045] text-white transition-all duration-300 group-hover:border-white/25 group-hover:bg-white/[0.09]">
