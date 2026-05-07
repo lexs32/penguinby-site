@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { X } from "lucide-react";
 import { base44 } from "@/api/base44Client";
+
+const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY || "1x00000000000000000000AA";
 
 const RATE_LIMIT_KEY = "penguinby_purchase_attempts";
 const MAX_ATTEMPTS = 5;
@@ -33,6 +35,46 @@ export default function EmailGateModal({ product, tier, onClose }) {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const turnstileRef = useRef(null);
+  const widgetIdRef = useRef(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    const getTs = () => window["turnstile"];
+    const render = () => {
+      const ts = getTs();
+      if (cancelled || !turnstileRef.current || !ts || widgetIdRef.current) return;
+      widgetIdRef.current = ts.render(turnstileRef.current, {
+        sitekey: TURNSTILE_SITE_KEY,
+        theme: "dark",
+        size: "flexible",
+        callback: (token) => setTurnstileToken(token),
+        "expired-callback": () => setTurnstileToken(""),
+        "error-callback": () => setTurnstileToken(""),
+      });
+    };
+    if (getTs()) render();
+    else {
+      const interval = setInterval(() => {
+        if (getTs()) {
+          clearInterval(interval);
+          render();
+        }
+      }, 200);
+      return () => {
+        cancelled = true;
+        clearInterval(interval);
+        const ts = getTs();
+        if (widgetIdRef.current && ts) ts.remove(widgetIdRef.current);
+      };
+    }
+    return () => {
+      cancelled = true;
+      const ts = getTs();
+      if (widgetIdRef.current && ts) ts.remove(widgetIdRef.current);
+    };
+  }, []);
 
   const handlePurchase = async (e) => {
     e.preventDefault();
@@ -41,6 +83,11 @@ export default function EmailGateModal({ product, tier, onClose }) {
     const normalized = email.toLowerCase().trim();
     if (!normalized || !EMAIL_RE.test(normalized) || normalized.length > 254) {
       setError("Please enter a valid email address.");
+      return;
+    }
+
+    if (!turnstileToken) {
+      setError("Please complete the verification.");
       return;
     }
 
@@ -103,6 +150,8 @@ export default function EmailGateModal({ product, tier, onClose }) {
             />
             {error && <div className="mt-2 font-mono text-[0.7rem] text-destructive">{error}</div>}
           </div>
+
+          <div ref={turnstileRef} className="min-h-[65px]" />
 
           <p className="font-mono text-[0.65rem] leading-[1.6] text-muted-foreground">Your email is used for order delivery and support only.</p>
 
