@@ -1,52 +1,44 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{{ store.name | default: "PenguinBy" }} — Security. Precision. Performance.</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Orbitron:wght@400;700;800;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #050608;
-      --fg: #f6f1ec;
-      --muted: #8A9BB0;
-      --primary: #f6f1ec;
-    }
-    html, body { background: var(--bg); color: var(--fg); font-family: 'Rajdhani', system-ui, sans-serif; }
-    .font-orbitron { font-family: 'Orbitron', sans-serif; }
-    .font-mono { font-family: 'JetBrains Mono', monospace; }
-    .text-muted { color: var(--muted); }
-    .text-primary { color: var(--primary); }
-    .border-primary\/20 { border-color: rgba(246,241,236,0.2); }
-    .bg-primary { background: var(--primary); }
-    .site-grid {
-      background-image:
-        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
-      background-size: 58px 58px;
-    }
-    @keyframes grid-pan { from { background-position: 0 0; } to { background-position: 58px 58px; } }
-    .animate-grid-pan { animation: grid-pan 18s linear infinite; }
-    @keyframes scan { 0% { transform: translateY(-100%); } 100% { transform: translateY(200%); } }
-    .animate-scan { animation: scan 4s ease-in-out infinite; }
-    @keyframes fade-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    .animate-fade-up { animation: fade-up 0.7s ease-out both; }
-    .glass { background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(20px); }
-    .btn-primary { background: var(--primary); color: #0b0b0d; transition: all 0.2s; }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(246,241,236,0.25); }
-    .btn-ghost { border: 1px solid rgba(255,255,255,0.18); color: rgba(255,255,255,0.85); transition: all 0.2s; }
-    .btn-ghost:hover { border-color: rgba(255,255,255,0.45); color: #fff; }
-    .modal-backdrop { display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 1.5rem; }
-    .modal-backdrop.open { display: flex; }
-    .modal-card { max-width: 720px; width: 100%; max-height: 80vh; overflow-y: auto; background: #0b0b0d; border: 1px solid rgba(246,241,236,0.2); border-radius: 14px; padding: 2rem; }
-  </style>
-</head>
-<body class="min-h-screen relative overflow-x-hidden">
-  <div class="fixed inset-0 site-grid animate-grid-pan opacity-50 pointer-events-none"></div>
-  <div class="fixed right-[-16rem] top-[-14rem] h-[42rem] w-[42rem] rounded-full bg-white/[0.05] blur-[140px] pointer-events-none"></div>
-  <div class="fixed bottom-[-18rem] left-[-14rem] h-[38rem] w-[38rem] rounded-full bg-white/[0.035] blur-[140px] pointer-events-none"></div>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Orbitron:wght@400;700;800;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #050608;
+    --fg: #f6f1ec;
+    --muted: #8A9BB0;
+    --primary: #f6f1ec;
+  }
+  html, body { background: var(--bg) !important; color: var(--fg) !important; font-family: 'Rajdhani', system-ui, sans-serif; }
+  .font-orbitron { font-family: 'Orbitron', sans-serif; }
+  .font-mono { font-family: 'JetBrains Mono', monospace; }
+  .text-muted { color: var(--muted); }
+  .text-primary { color: var(--primary); }
+  .bg-primary { background: var(--primary); }
+  .site-grid {
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 58px 58px;
+  }
+  @keyframes grid-pan { from { background-position: 0 0; } to { background-position: 58px 58px; } }
+  .animate-grid-pan { animation: grid-pan 18s linear infinite; }
+  @keyframes scan { 0% { transform: translateY(-100%); } 100% { transform: translateY(200%); } }
+  .animate-scan { animation: scan 4s ease-in-out infinite; }
+  @keyframes fade-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  .animate-fade-up { animation: fade-up 0.7s ease-out both; }
+  .glass { background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(20px); }
+  .btn-primary { background: var(--primary); color: #0b0b0d; transition: all 0.2s; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(246,241,236,0.25); }
+  .btn-ghost { border: 1px solid rgba(255,255,255,0.18); color: rgba(255,255,255,0.85); transition: all 0.2s; }
+  .btn-ghost:hover { border-color: rgba(255,255,255,0.45); color: #fff; }
+  .modal-backdrop { display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 1.5rem; }
+  .modal-backdrop.open { display: flex; }
+  .modal-card { max-width: 720px; width: 100%; max-height: 80vh; overflow-y: auto; background: #0b0b0d; border: 1px solid rgba(246,241,236,0.2); border-radius: 14px; padding: 2rem; }
+</style>
+
+<div class="fixed inset-0 site-grid animate-grid-pan opacity-50 pointer-events-none" style="z-index:0;"></div>
+<div class="fixed right-[-16rem] top-[-14rem] h-[42rem] w-[42rem] rounded-full bg-white/[0.05] blur-[140px] pointer-events-none" style="z-index:0;"></div>
+<div class="fixed bottom-[-18rem] left-[-14rem] h-[38rem] w-[38rem] rounded-full bg-white/[0.035] blur-[140px] pointer-events-none" style="z-index:0;"></div>
 
   <!-- NAVBAR -->
   <nav class="fixed inset-x-0 top-0 z-[1000] border-b border-white/10 bg-[#08090b]/90 backdrop-blur-[20px]">
@@ -155,5 +147,3 @@
       });
     });
   </script>
-</body>
-</html>
