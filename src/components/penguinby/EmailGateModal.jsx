@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { X } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 
-const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY || "1x00000000000000000000AA";
+const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY || "0x4AAAAAADLASpI4vxGrly6M";
 
 const RATE_LIMIT_KEY = "penguinby_purchase_attempts";
 const MAX_ATTEMPTS = 5;
