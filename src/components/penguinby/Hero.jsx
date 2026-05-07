@@ -123,10 +123,6 @@ export default function Hero() {
           <p className="animate-hero-2 mt-8 max-w-[560px] text-[1.08rem] font-medium leading-[1.75] text-[#8A9BB0] sm:text-[1.18rem]">
             PenguinBy delivers premium, feature-rich software access with real-time updates, fast setup, and 24/7 support.
           </p>
-          <p className="mt-3 font-mono text-[0.72rem] uppercase tracking-[0.16em] text-[#8A9BB0]/50">
-            wWt-7Ch-S5A-
-          </p>
-
           <div className="animate-hero-3 mt-10 flex flex-col gap-4 sm:flex-row">
             <button
               onClick={() => scrollTo("pricing")}

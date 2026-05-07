@@ -3,7 +3,7 @@ import { Clock, Mail, MessageCircle, Signal, Ticket } from "lucide-react";
 
 const channels = [
   { icon: MessageCircle, name: "Discord", desc: "Fastest path for setup help and account questions.", status: "Online", url: "https://discord.gg/HtSVra2rFS" },
-  { icon: Ticket, name: "Ticket System", desc: "Use tickets for purchase, delivery, and technical issues.", status: "Online", url: "https://discord.gg/HtSVra2rFS" },
+  { icon: Ticket, name: "Ticket System", desc: "Use tickets for purchase, delivery, and technical issues.", status: "Online", url: "https://discord.gg/yfGvWcpydN" },
   { icon: Mail, name: "Email", desc: "support.penguinby@gmail.com", status: "24/7", url: "mailto:support.penguinby@gmail.com" },
 ];
 

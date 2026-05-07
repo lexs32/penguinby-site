@@ -34,11 +34,6 @@ export default function Home() {
         <Reviews />
         <Support />
         <FAQ />
-        <div className="mx-auto flex max-w-[1180px] justify-center px-6 pb-10 sm:px-12">
-          <div className="rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-2 font-mono text-[0.68rem] uppercase tracking-[0.18em] text-[#8A9BB0]">
-            wWt-7Ch-S5A-
-          </div>
-        </div>
       </main>
       <Footer />
     </div>
