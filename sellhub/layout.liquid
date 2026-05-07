@@ -24,16 +24,30 @@
   .animate-grid-pan { animation: grid-pan 18s linear infinite; }
   @keyframes scan { 0% { transform: translateY(-100%); } 100% { transform: translateY(200%); } }
   .animate-scan { animation: scan 4s ease-in-out infinite; }
-  @keyframes fade-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fade-up { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
   .animate-fade-up { animation: fade-up 0.7s ease-out both; }
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease-out, transform 0.7s ease-out; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
   .glass { background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(20px); }
-  .btn-primary { background: var(--primary); color: #0b0b0d; transition: all 0.2s; }
+  .btn-primary { background: var(--primary); color: #0b0b0d; transition: all 0.2s; cursor: pointer; }
   .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(246,241,236,0.25); }
-  .btn-ghost { border: 1px solid rgba(255,255,255,0.18); color: rgba(255,255,255,0.85); transition: all 0.2s; }
+  .btn-ghost { border: 1px solid rgba(255,255,255,0.18); color: rgba(255,255,255,0.85); transition: all 0.2s; cursor: pointer; }
   .btn-ghost:hover { border-color: rgba(255,255,255,0.45); color: #fff; }
   .modal-backdrop { display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 1.5rem; }
   .modal-backdrop.open { display: flex; }
   .modal-card { max-width: 720px; width: 100%; max-height: 80vh; overflow-y: auto; background: #0b0b0d; border: 1px solid rgba(246,241,236,0.2); border-radius: 14px; padding: 2rem; }
+  #mobile-menu { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(5,6,8,0.97); backdrop-filter: blur(24px); flex-direction: column; align-items: center; justify-content: center; gap: 2rem; }
+  #mobile-menu.open { display: flex; }
+  #mobile-menu a, #mobile-menu button { font-family: 'Orbitron', sans-serif; font-size: 1.4rem; font-weight: 800; color: #fff; text-decoration: none; background: none; border: none; cursor: pointer; }
+  #mobile-menu a:hover, #mobile-menu button:hover { color: var(--muted); }
+  #back-to-top { position: fixed; bottom: 2rem; right: 2rem; z-index: 998; width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; opacity: 0; transform: translateY(12px); transition: all 0.3s; pointer-events: none; font-size: 1.2rem; }
+  #back-to-top.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  #back-to-top:hover { background: rgba(255,255,255,0.15); }
+  @keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 8px rgba(34,197,94,0.3); } 50% { box-shadow: 0 0 20px rgba(34,197,94,0.6); } }
+  .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 8px; }
+  .status-dot.green { background: #22c55e; animation: pulse-glow 2s ease-in-out infinite; }
+  .status-dot.yellow { background: #eab308; }
+  .status-dot.red { background: #ef4444; }
 </style>
 
 <div class="fixed inset-0 site-grid animate-grid-pan opacity-50 pointer-events-none" style="z-index:0;"></div>
@@ -47,16 +61,34 @@
         {{ name | default: "PenguinBy" }}
       </a>
       <ul class="hidden items-center gap-9 list-none lg:flex">
-        <li><a href="#about" class="font-orbitron text-[0.94rem] font-bold text-primary">About</a></li>
-        <li><a href="#features" class="font-orbitron text-[0.94rem] font-bold text-muted hover:text-primary">Features</a></li>
-        <li><a href="#pricing" class="font-orbitron text-[0.94rem] font-bold text-muted hover:text-primary">Pricing</a></li>
-        <li><a href="#faq" class="font-orbitron text-[0.94rem] font-bold text-muted hover:text-primary">FAQ</a></li>
+        <li><a href="#about" class="font-orbitron text-[0.94rem] font-bold text-muted hover:text-primary transition-colors">About</a></li>
+        <li><a href="#pricing" class="font-orbitron text-[0.94rem] font-bold text-muted hover:text-primary transition-colors">Pricing</a></li>
+        <li><a href="#support" class="font-orbitron text-[0.94rem] font-bold text-muted hover:text-primary transition-colors">Support</a></li>
+        <li><a href="#faq" class="font-orbitron text-[0.94rem] font-bold text-muted hover:text-primary transition-colors">FAQ</a></li>
       </ul>
-      <a href="/cart" class="relative font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted hover:text-primary">
-        Cart ({{ cartItems.items.length | default: 0 }})
-      </a>
+      <div class="flex items-center gap-4">
+        <a href="/cart" class="relative font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted hover:text-primary transition-colors">
+          Cart ({{ cartItems.items.length | default: 0 }})
+        </a>
+        <button id="menu-toggle" class="lg:hidden flex flex-col gap-1.5 p-2 bg-transparent border-0 cursor-pointer" aria-label="Toggle menu">
+          <span class="block w-6 h-px bg-white transition-transform origin-center"></span>
+          <span class="block w-6 h-px bg-white transition-opacity"></span>
+          <span class="block w-6 h-px bg-white transition-transform origin-center"></span>
+        </button>
+      </div>
     </div>
   </nav>
+
+  <!-- MOBILE MENU -->
+  <div id="mobile-menu">
+    <a href="#about" onclick="document.getElementById('mobile-menu').classList.remove('open')">About</a>
+    <a href="#pricing" onclick="document.getElementById('mobile-menu').classList.remove('open')">Pricing</a>
+    <a href="#support" onclick="document.getElementById('mobile-menu').classList.remove('open')">Support</a>
+    <a href="#faq" onclick="document.getElementById('mobile-menu').classList.remove('open')">FAQ</a>
+    <a href="/cart" onclick="document.getElementById('mobile-menu').classList.remove('open')">Cart ({{ cartItems.items.length | default: 0 }})</a>
+    <button onclick="document.getElementById('tos-modal').classList.add('open');document.getElementById('mobile-menu').classList.remove('open')">Terms</button>
+    <button onclick="document.getElementById('refund-modal').classList.add('open');document.getElementById('mobile-menu').classList.remove('open')">Refunds</button>
+  </div>
 
   <main class="relative z-10 pt-[76px]">
     {% comment %} PenguinBy Home / Store page {% endcomment %}
@@ -143,6 +175,24 @@
       </div>
     </section>
 
+    <!-- STATS BAR -->
+    <div class="relative z-10 border-y border-white/[0.06] bg-[#0a0a0c]/70 px-6 py-8 sm:px-12">
+      <div class="mx-auto flex max-w-[1280px] flex-wrap items-center justify-center gap-x-16 gap-y-4 sm:justify-between">
+        <div class="flex items-center gap-3 font-mono text-[0.72rem] uppercase tracking-[0.14em] text-white/60">
+          <span class="text-white font-bold text-[1.1rem] stat-number">99.9%</span> Uptime
+        </div>
+        <div class="flex items-center gap-3 font-mono text-[0.72rem] uppercase tracking-[0.14em] text-white/60">
+          <span class="text-white font-bold text-[1.1rem] stat-number">&lt;10min</span> Response
+        </div>
+        <div class="flex items-center gap-3 font-mono text-[0.72rem] uppercase tracking-[0.14em] text-white/60">
+          <span class="text-white font-bold text-[1.1rem] stat-number">24/7</span> Support
+        </div>
+        <div class="flex items-center gap-3 font-mono text-[0.72rem] uppercase tracking-[0.14em] text-white/60">
+          <span class="text-white font-bold text-[1.1rem] stat-number">Instant</span> Delivery
+        </div>
+      </div>
+    </div>
+
     <!-- ABOUT / DETAILS -->
     <section id="about" class="relative overflow-hidden border-y border-white/[0.06] bg-[#090909]/80 px-6 py-20 sm:px-12">
       <div class="mx-auto max-w-[1280px]">
@@ -169,30 +219,53 @@
     </section>
 
     <!-- FEATURES -->
-    <section id="features" class="relative overflow-hidden px-6 py-20 sm:px-12">
+    <section id="features" class="relative overflow-hidden px-6 py-20 sm:px-12 reveal">
       <div class="mx-auto max-w-[1280px]">
         <div class="mb-12">
           <div class="mb-4 flex items-center gap-3 font-mono text-[0.68rem] uppercase tracking-[0.2em] text-primary">
-            <span class="h-5 w-px bg-primary"></span> Features
+            <span class="h-5 w-px bg-primary"></span> Why PenguinBy
           </div>
           <h2 class="max-w-[680px] font-orbitron text-[2.4rem] font-black leading-[1.04] text-white md:text-[3.4rem]">
             Everything you need, nothing you don't.
           </h2>
         </div>
-        <div class="grid gap-4 md:grid-cols-3">
-          {% assign feats = "24/7 Support,Instant Delivery,Live Updates,Custom Profiles,Anti-Detect Layer,Discord Community" | split: "," %}
-          {% for ft in feats %}
-            <div class="glass rounded-2xl p-6">
-              <div class="mb-2 font-mono text-[0.6rem] uppercase tracking-[0.18em] text-primary">Module</div>
-              <div class="font-orbitron text-[1.1rem] font-bold text-white">{{ ft }}</div>
-            </div>
-          {% endfor %}
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div class="glass rounded-2xl p-6 hover:-translate-y-1 transition-all">
+            <div class="mb-3 font-mono text-[0.6rem] uppercase tracking-[0.18em] text-primary">01</div>
+            <div class="font-orbitron text-[1.1rem] font-bold text-white">24/7 Support</div>
+            <p class="mt-2 text-[0.88rem] leading-6 text-muted">Discord, tickets, and email — help when you need it.</p>
+          </div>
+          <div class="glass rounded-2xl p-6 hover:-translate-y-1 transition-all">
+            <div class="mb-3 font-mono text-[0.6rem] uppercase tracking-[0.18em] text-primary">02</div>
+            <div class="font-orbitron text-[1.1rem] font-bold text-white">Instant Delivery</div>
+            <p class="mt-2 text-[0.88rem] leading-6 text-muted">Access granted immediately after payment clears.</p>
+          </div>
+          <div class="glass rounded-2xl p-6 hover:-translate-y-1 transition-all">
+            <div class="mb-3 font-mono text-[0.6rem] uppercase tracking-[0.18em] text-primary">03</div>
+            <div class="font-orbitron text-[1.1rem] font-bold text-white">Live Updates</div>
+            <p class="mt-2 text-[0.88rem] leading-6 text-muted">Products updated for compatibility and safety.</p>
+          </div>
+          <div class="glass rounded-2xl p-6 hover:-translate-y-1 transition-all">
+            <div class="mb-3 font-mono text-[0.6rem] uppercase tracking-[0.18em] text-primary">04</div>
+            <div class="font-orbitron text-[1.1rem] font-bold text-white">Anti-Detect Layer</div>
+            <p class="mt-2 text-[0.88rem] leading-6 text-muted">Built with evasion in mind from the ground up.</p>
+          </div>
+          <div class="glass rounded-2xl p-6 hover:-translate-y-1 transition-all">
+            <div class="mb-3 font-mono text-[0.6rem] uppercase tracking-[0.18em] text-primary">05</div>
+            <div class="font-orbitron text-[1.1rem] font-bold text-white">Custom Profiles</div>
+            <p class="mt-2 text-[0.88rem] leading-6 text-muted">Save and switch between configs per game or playstyle.</p>
+          </div>
+          <div class="glass rounded-2xl p-6 hover:-translate-y-1 transition-all">
+            <div class="mb-3 font-mono text-[0.6rem] uppercase tracking-[0.18em] text-primary">06</div>
+            <div class="font-orbitron text-[1.1rem] font-bold text-white">Discord Community</div>
+            <p class="mt-2 text-[0.88rem] leading-6 text-muted">Active community for setup help and updates.</p>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- PRICING / PRODUCTS (auto from SellHub) -->
-    <section id="pricing" class="relative overflow-hidden border-y border-white/[0.06] bg-[#080808]/90 px-6 py-24 sm:px-12">
+    <section id="pricing" class="relative overflow-hidden border-y border-white/[0.06] bg-[#080808]/90 px-6 py-24 sm:px-12 reveal">
       <div class="mx-auto max-w-[1280px]">
         <div class="mb-12">
           <div class="mb-4 flex items-center gap-3 font-mono text-[0.68rem] uppercase tracking-[0.2em] text-primary">
@@ -232,7 +305,7 @@
     </section>
 
     <!-- SUPPORT / STATUS -->
-    <section id="support" class="relative overflow-hidden px-6 py-24 sm:px-12">
+    <section id="support" class="relative overflow-hidden px-6 py-24 sm:px-12 reveal">
       <div class="mx-auto max-w-[1280px] grid gap-7 lg:grid-cols-[1fr_0.86fr]">
         <div class="glass rounded-3xl p-7">
           <div class="mb-4 border-l-2 border-primary pl-4 font-mono text-[0.68rem] uppercase tracking-[0.2em] text-primary">Support</div>
@@ -266,11 +339,11 @@
             <h3 class="mt-2 font-orbitron text-[1.55rem] font-black text-white">Product Health</h3>
           </div>
           <div class="space-y-3">
-            {% assign statuses = "Arc Raiders Pro:Operational,R6 Pro:Operational,Checkout:Operational,Delivery:Operational" | split: "," %}
+            {% assign statuses = "Arc Raiders Pro:Operational:green,R6 Pro:Operational:green,Checkout:Operational:green,Delivery:Operational:green" | split: "," %}
             {% for s in statuses %}
               {% assign sp = s | split: ":" %}
               <div class="flex items-center justify-between rounded-2xl border border-white/[0.08] bg-white/[0.03] px-4 py-4">
-                <span class="font-mono text-[0.72rem] uppercase tracking-[0.14em] text-muted">{{ sp[0] }}</span>
+                <span class="flex items-center font-mono text-[0.72rem] uppercase tracking-[0.14em] text-muted"><span class="status-dot {{ sp[2] }}"></span>{{ sp[0] }}</span>
                 <span class="font-orbitron text-[0.95rem] font-bold text-white">{{ sp[1] }}</span>
               </div>
             {% endfor %}
@@ -284,7 +357,7 @@
     </section>
 
     <!-- FAQ -->
-    <section id="faq" class="relative overflow-hidden border-y border-white/[0.06] bg-[#050608] px-6 py-24 sm:px-12">
+    <section id="faq" class="relative overflow-hidden border-y border-white/[0.06] bg-[#050608] px-6 py-24 sm:px-12 reveal">
       <div class="mx-auto max-w-[1280px]">
         <div class="mb-12">
           <div class="mb-4 flex items-center gap-3 font-mono text-[0.68rem] uppercase tracking-[0.2em] text-white/70">
@@ -323,8 +396,8 @@
             </p>
             <div class="mt-7 flex flex-wrap gap-5 font-mono text-[0.72rem] font-bold uppercase tracking-[0.14em]">
               <a href="#about" class="text-muted hover:text-white">About</a>
-              <a href="#features" class="text-muted hover:text-white">Features</a>
               <a href="#pricing" class="text-muted hover:text-white">Pricing</a>
+              <a href="#support" class="text-muted hover:text-white">Support</a>
               <a href="#faq" class="text-muted hover:text-white">FAQ</a>
               <button onclick="document.getElementById('tos-modal').classList.add('open')" class="text-muted hover:text-white">Terms</button>
               <button onclick="document.getElementById('refund-modal').classList.add('open')" class="text-muted hover:text-white">Refunds</button>
@@ -387,8 +460,49 @@
     </div>
   </div>
 
+  <button id="back-to-top" aria-label="Back to top">↑</button>
+
   <script>
-    document.querySelectorAll('a[href^="#"]').forEach(a => {
+    // Mobile menu toggle
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    menuToggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('open');
+      const spans = menuToggle.querySelectorAll('span');
+      if (mobileMenu.classList.contains('open')) {
+        spans[0].style.transform = 'translateY(7px) rotate(45deg)';
+        spans[1].style.opacity = '0';
+        spans[2].style.transform = 'translateY(-7px) rotate(-45deg)';
+      } else {
+        spans[0].style.transform = '';
+        spans[1].style.opacity = '';
+        spans[2].style.transform = '';
+      }
+    });
+
+    // Scroll reveal
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(el => observer.observe(el));
+
+    // Back to top
+    const backToTop = document.getElementById('back-to-top');
+    window.addEventListener('scroll', () => {
+      backToTop.classList.toggle('show', window.scrollY > 600);
+    });
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^=\"#\"]').forEach(a => {
       a.addEventListener('click', e => {
         const id = a.getAttribute('href').slice(1);
         const el = document.getElementById(id);
