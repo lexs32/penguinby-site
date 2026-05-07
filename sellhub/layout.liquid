@@ -44,7 +44,7 @@
   <nav class="fixed inset-x-0 top-0 z-[1000] border-b border-white/10 bg-[#08090b]/90 backdrop-blur-[20px]">
     <div class="mx-auto flex h-[76px] max-w-[1280px] items-center justify-between px-6 sm:px-12">
       <a href="/" class="font-orbitron text-[1.55rem] font-extrabold italic text-primary hover:drop-shadow-[0_0_18px_rgba(255,255,255,0.16)]">
-        {{ store.name | default: "PenguinBy" }}
+        {{ name | default: "PenguinBy" }}
       </a>
       <ul class="hidden items-center gap-9 list-none lg:flex">
         <li><a href="#about" class="font-orbitron text-[0.94rem] font-bold text-primary">About</a></li>
@@ -59,7 +59,7 @@
   </nav>
 
   <main class="relative z-10 pt-[76px]">
-    {{ content_for_layout }}
+    {% block content %}{% endblock %}
   </main>
 
   <!-- FOOTER -->
@@ -68,7 +68,7 @@
       <div class="glass rounded-[1.6rem] p-6 sm:p-8">
         <div class="grid gap-8 lg:grid-cols-[1fr_1.35fr] lg:items-start">
           <div>
-            <a href="/" class="font-orbitron text-[1.45rem] font-extrabold italic text-white">{{ store.name | default: "PenguinBy" }}</a>
+            <a href="/" class="font-orbitron text-[1.45rem] font-extrabold italic text-white">{{ name | default: "PenguinBy" }}</a>
             <p class="mt-3 max-w-[330px] text-[0.9rem] leading-6 text-muted">
               Premium access with clear pricing, visible proof, and direct support.
             </p>
@@ -100,7 +100,7 @@
           </div>
         </div>
         <div class="mt-8 flex flex-col gap-3 border-t border-white/[0.07] pt-5 font-mono text-[0.68rem] uppercase tracking-[0.14em] text-white/35 sm:flex-row sm:items-center sm:justify-between">
-          <span>© 2026 {{ store.name | default: "PenguinBy" }}</span>
+          <span>© 2026 {{ name | default: "PenguinBy" }}</span>
           <span>All rights reserved</span>
         </div>
       </div>
