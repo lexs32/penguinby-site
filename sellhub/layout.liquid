@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ store.name | default: "PenguinBy" }} — Security. Precision. Performance.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Orbitron:wght@400;700;800;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #050608;
+      --fg: #f6f1ec;
+      --muted: #8A9BB0;
+      --primary: #f6f1ec;
+    }
+    html, body { background: var(--bg); color: var(--fg); font-family: 'Rajdhani', system-ui, sans-serif; }
+    .font-orbitron { font-family: 'Orbitron', sans-serif; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    .text-muted { color: var(--muted); }
+    .text-primary { color: var(--primary); }
+    .border-primary\/20 { border-color: rgba(246,241,236,0.2); }
+    .bg-primary { background: var(--primary); }
+    .site-grid {
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 58px 58px;
+    }
+    @keyframes grid-pan { from { background-position: 0 0; } to { background-position: 58px 58px; } }
+    .animate-grid-pan { animation: grid-pan 18s linear infinite; }
+    @keyframes scan { 0% { transform: translateY(-100%); } 100% { transform: translateY(200%); } }
+    .animate-scan { animation: scan 4s ease-in-out infinite; }
+    @keyframes fade-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .animate-fade-up { animation: fade-up 0.7s ease-out both; }
+    .glass { background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(20px); }
+    .btn-primary { background: var(--primary); color: #0b0b0d; transition: all 0.2s; }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(246,241,236,0.25); }
+    .btn-ghost { border: 1px solid rgba(255,255,255,0.18); color: rgba(255,255,255,0.85); transition: all 0.2s; }
+    .btn-ghost:hover { border-color: rgba(255,255,255,0.45); color: #fff; }
+    .modal-backdrop { display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 1.5rem; }
+    .modal-backdrop.open { display: flex; }
+    .modal-card { max-width: 720px; width: 100%; max-height: 80vh; overflow-y: auto; background: #0b0b0d; border: 1px solid rgba(246,241,236,0.2); border-radius: 14px; padding: 2rem; }
+  </style>
+</head>
+<body class="min-h-screen relative overflow-x-hidden">
+  <div class="fixed inset-0 site-grid animate-grid-pan opacity-50 pointer-events-none"></div>
+  <div class="fixed right-[-16rem] top-[-14rem] h-[42rem] w-[42rem] rounded-full bg-white/[0.05] blur-[140px] pointer-events-none"></div>
+  <div class="fixed bottom-[-18rem] left-[-14rem] h-[38rem] w-[38rem] rounded-full bg-white/[0.035] blur-[140px] pointer-events-none"></div>
+
+  <!-- NAVBAR -->
+  <nav class="fixed inset-x-0 top-0 z-[1000] border-b border-white/10 bg-[#08090b]/90 backdrop-blur-[20px]">
+    <div class="mx-auto flex h-[76px] max-w-[1280px] items-center justify-between px-6 sm:px-12">
+      <a href="/" class="font-orbitron text-[1.55rem] font-extrabold italic text-primary hover:drop-shadow-[0_0_18px_rgba(255,255,255,0.16)]">
+        {{ store.name | default: "PenguinBy" }}
+      </a>
+      <ul class="hidden items-center gap-9 list-none lg:flex">
+        <li><a href="#about" class="font-orbitron text-[0.94rem] font-bold text-primary">About</a></li>
+        <li><a href="#features" class="font-orbitron text-[0.94rem] font-bold text-muted hover:text-primary">Features</a></li>
+        <li><a href="#pricing" class="font-orbitron text-[0.94rem] font-bold text-muted hover:text-primary">Pricing</a></li>
+        <li><a href="#faq" class="font-orbitron text-[0.94rem] font-bold text-muted hover:text-primary">FAQ</a></li>
+      </ul>
+      <a href="/cart" class="relative font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted hover:text-primary">
+        Cart ({{ cartItems.items.length | default: 0 }})
+      </a>
+    </div>
+  </nav>
+
+  <main class="relative z-10 pt-[76px]">
+    {{ content }}
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="relative z-10 border-t border-white/[0.08] bg-[#050608] px-6 py-14 sm:px-12 mt-20">
+    <div class="mx-auto max-w-[1280px]">
+      <div class="glass rounded-[1.6rem] p-6 sm:p-8">
+        <div class="grid gap-8 lg:grid-cols-[1fr_1.35fr] lg:items-start">
+          <div>
+            <a href="/" class="font-orbitron text-[1.45rem] font-extrabold italic text-white">{{ store.name | default: "PenguinBy" }}</a>
+            <p class="mt-3 max-w-[330px] text-[0.9rem] leading-6 text-muted">
+              Premium access with clear pricing, visible proof, and direct support.
+            </p>
+            <div class="mt-7 flex flex-wrap gap-5 font-mono text-[0.72rem] font-bold uppercase tracking-[0.14em]">
+              <a href="#about" class="text-muted hover:text-white">About</a>
+              <a href="#features" class="text-muted hover:text-white">Features</a>
+              <a href="#pricing" class="text-muted hover:text-white">Pricing</a>
+              <a href="#faq" class="text-muted hover:text-white">FAQ</a>
+              <button onclick="document.getElementById('tos-modal').classList.add('open')" class="text-muted hover:text-white">Terms</button>
+              <button onclick="document.getElementById('refund-modal').classList.add('open')" class="text-muted hover:text-white">Refunds</button>
+            </div>
+          </div>
+          <div>
+            <p class="mb-4 font-mono text-[0.68rem] font-bold uppercase tracking-[0.2em] text-white/45">Support</p>
+            <div class="grid gap-3 sm:grid-cols-3">
+              <a href="https://discord.gg/HtSVra2rFS" target="_blank" rel="noopener" class="rounded-2xl border border-white/[0.08] bg-black/20 p-4 hover:-translate-y-1 hover:border-white/20 transition-all">
+                <span class="block font-orbitron text-[1rem] font-bold text-white">Discord</span>
+                <span class="mt-1 block text-[0.82rem] text-muted">Fastest replies</span>
+              </a>
+              <a href="mailto:{{ store.email | default: 'support.penguinby@gmail.com' }}" class="rounded-2xl border border-white/[0.08] bg-black/20 p-4 hover:-translate-y-1 hover:border-white/20 transition-all">
+                <span class="block font-orbitron text-[1rem] font-bold text-white">Email</span>
+                <span class="mt-1 block text-[0.82rem] text-muted">Detailed help</span>
+              </a>
+              <a href="https://discord.gg/yfGvWcpydN" target="_blank" rel="noopener" class="rounded-2xl border border-white/[0.08] bg-black/20 p-4 hover:-translate-y-1 hover:border-white/20 transition-all">
+                <span class="block font-orbitron text-[1rem] font-bold text-white">Ticket</span>
+                <span class="mt-1 block text-[0.82rem] text-muted">Order support</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="mt-8 flex flex-col gap-3 border-t border-white/[0.07] pt-5 font-mono text-[0.68rem] uppercase tracking-[0.14em] text-white/35 sm:flex-row sm:items-center sm:justify-between">
+          <span>© 2026 {{ store.name | default: "PenguinBy" }}</span>
+          <span>All rights reserved</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- TOS MODAL -->
+  <div id="tos-modal" class="modal-backdrop" onclick="if(event.target===this)this.classList.remove('open')">
+    <div class="modal-card">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="font-orbitron text-2xl font-black text-white">Terms of Service</h3>
+        <button onclick="document.getElementById('tos-modal').classList.remove('open')" class="text-muted hover:text-white text-2xl">×</button>
+      </div>
+      <div class="text-[0.92rem] leading-7 text-muted space-y-3">
+        <p>By purchasing access to PenguinBy products, you agree to these terms. Access is sold as a digital service for personal use only.</p>
+        <p>You may not share, resell, or redistribute access. Violation results in immediate termination without refund.</p>
+        <p>Updates and downtime: products may receive updates or experience temporary downtime; durations are not paused for these events unless explicitly stated.</p>
+        <p>Support is provided via Discord, email, and ticket channels.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- REFUND MODAL -->
+  <div id="refund-modal" class="modal-backdrop" onclick="if(event.target===this)this.classList.remove('open')">
+    <div class="modal-card">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="font-orbitron text-2xl font-black text-white">Refund Policy</h3>
+        <button onclick="document.getElementById('refund-modal').classList.remove('open')" class="text-muted hover:text-white text-2xl">×</button>
+      </div>
+      <div class="text-[0.92rem] leading-7 text-muted space-y-3">
+        <p>Refunds are available within 7 days of purchase if the product cannot be delivered or is non-functional due to a confirmed product issue.</p>
+        <p>Refunds are not available for: wrong product chosen, hardware incompatibility you did not check before purchase, or change of mind.</p>
+        <p>To request a refund, contact <a href="mailto:{{ store.email | default: 'support.penguinby@gmail.com' }}" class="text-primary underline">{{ store.email | default: 'support.penguinby@gmail.com' }}</a> within 7 days of purchase with your order ID.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const id = a.getAttribute('href').slice(1);
+        const el = document.getElementById(id);
+        if (el) { e.preventDefault(); window.scrollTo({ top: el.offsetTop - 80, behavior: 'smooth' }); }
+      });
+    });
+  </script>
+</body>
+</html>
