@@ -13,6 +13,7 @@ export default function ProductPage() {
   const [tierIndex, setTierIndex] = useState(1);
   const [previewImage, setPreviewImage] = useState(null);
   const [emailGate, setEmailGate] = useState(null);
+  const [activeTab, setActiveTab] = useState(0);
 
   const tier = useMemo(() => product?.pricing[tierIndex], [product, tierIndex]);
 
@@ -148,6 +149,47 @@ export default function ProductPage() {
           </section>
         </div>
       </main>
+
+      {product.details && (
+        <section className="relative z-10 px-6 pb-24 sm:px-12">
+          <div className="mx-auto max-w-[1180px]">
+            <div className="mb-6 w-fit border-l-2 border-primary pl-4 font-mono text-[0.68rem] uppercase tracking-[0.2em] text-primary">
+              Product Details
+            </div>
+            <h2 className="mb-8 font-orbitron text-[2rem] font-black text-white md:text-[2.6rem]">
+              {product.details.heading}
+            </h2>
+
+            <div className="flex flex-wrap gap-2">
+              {product.details.tabs.map((tab, index) => (
+                <button
+                  key={tab.label}
+                  type="button"
+                  onClick={() => setActiveTab(index)}
+                  className={`rounded-xl border px-5 py-2.5 font-mono text-[0.78rem] font-bold uppercase tracking-[0.08em] transition-all ${
+                    activeTab === index
+                      ? "border-primary/60 bg-primary/10 text-primary shadow-[0_0_20px_rgba(255,255,255,0.06)]"
+                      : "border-white/[0.09] bg-white/[0.025] text-[#8A9BB0] hover:border-white/20 hover:text-white"
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+
+            <div className="mt-6 rounded-3xl border border-white/[0.08] bg-white/[0.025] p-6 sm:p-8">
+              <div className="grid gap-x-8 gap-y-3 sm:grid-cols-2">
+                {product.details.tabs[activeTab].items.map((item) => (
+                  <div key={item} className="flex items-start gap-3 py-1.5">
+                    <Check size={15} className="mt-0.5 shrink-0 text-primary" />
+                    <span className="text-[0.95rem] leading-6 text-[#c5ced8]">{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       <Footer />
 
