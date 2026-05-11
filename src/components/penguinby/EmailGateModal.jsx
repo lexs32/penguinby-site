@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { X } from "lucide-react";
+import { Bitcoin, CreditCard, X } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 
 const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY || "0x4AAAAAADLASpI4vxGrly6M";
@@ -36,6 +36,7 @@ export default function EmailGateModal({ product, tier, onClose }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [turnstileToken, setTurnstileToken] = useState("");
+  const [payMethod, setPayMethod] = useState("card");
   const turnstileRef = useRef(null);
   const widgetIdRef = useRef(null);
 
@@ -107,10 +108,12 @@ export default function EmailGateModal({ product, tier, onClose }) {
         setLoading(false);
         return;
       }
-      window.open(tier.url, "_blank", "noopener,noreferrer");
+      const target = payMethod === "crypto" && tier.cryptoUrl ? tier.cryptoUrl : tier.url;
+      window.open(target, "_blank", "noopener,noreferrer");
       onClose();
     } catch {
-      window.open(tier.url, "_blank", "noopener,noreferrer");
+      const target = payMethod === "crypto" && tier.cryptoUrl ? tier.cryptoUrl : tier.url;
+      window.open(target, "_blank", "noopener,noreferrer");
       onClose();
     }
   };
@@ -149,6 +152,37 @@ export default function EmailGateModal({ product, tier, onClose }) {
               style={{ userSelect: "text", WebkitUserSelect: "text" }}
             />
             {error && <div className="mt-2 font-mono text-[0.7rem] text-destructive">{error}</div>}
+          </div>
+
+          <div>
+            <label className="mb-2 block font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted-foreground">Payment Method</label>
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                onClick={() => setPayMethod("card")}
+                className={`flex items-center justify-center gap-2 rounded-md border px-3 py-2.5 font-mono text-[0.7rem] uppercase tracking-[0.12em] transition-all ${
+                  payMethod === "card"
+                    ? "border-primary bg-primary/10 text-primary"
+                    : "border-white/10 bg-black/25 text-muted-foreground hover:border-white/25 hover:text-white"
+                }`}
+              >
+                <CreditCard size={14} />
+                Card
+              </button>
+              <button
+                type="button"
+                onClick={() => setPayMethod("crypto")}
+                disabled={!tier.cryptoUrl}
+                className={`flex items-center justify-center gap-2 rounded-md border px-3 py-2.5 font-mono text-[0.7rem] uppercase tracking-[0.12em] transition-all disabled:cursor-not-allowed disabled:opacity-40 ${
+                  payMethod === "crypto"
+                    ? "border-primary bg-primary/10 text-primary"
+                    : "border-white/10 bg-black/25 text-muted-foreground hover:border-white/25 hover:text-white"
+                }`}
+              >
+                <Bitcoin size={14} />
+                Crypto
+              </button>
+            </div>
           </div>
 
           <div ref={turnstileRef} className="min-h-[65px]" />

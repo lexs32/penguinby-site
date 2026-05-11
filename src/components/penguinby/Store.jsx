@@ -14,9 +14,9 @@ export const products = [
     desc: "Premium Arc Raiders access with ESP, aim control, clean setup, and fast delivery.",
     longDesc: "Full access to the Arc Raiders control suite with live updates, guided setup, and priority support.",
     pricing: [
-      { label: "1 Day", price: "$7.99", period: "/ day", url: "https://moneymotion.io/pay/2M7GimCLXU" },
-      { label: "1 Week", price: "$24.99", period: "/ week", url: "https://moneymotion.io/pay/VGPQI4teeD" },
-      { label: "1 Month", price: "$49.99", period: "/ month", url: "https://moneymotion.io/pay/ARQMUfnWwf" },
+      { label: "1 Day", price: "$7.99", period: "/ day", url: "https://penguinby.sellhub.cx/product/arcraidersproday/", cryptoUrl: "https://mainnet.demo.btcpayserver.org/payment-requests/be983961-08c2-42b5-b8de-2301a24125df" },
+      { label: "1 Week", price: "$24.99", period: "/ week", url: "https://penguinby.sellhub.cx/product/arcraidersproweek/", cryptoUrl: "https://mainnet.demo.btcpayserver.org/payment-requests/8ad6fbab-7e7b-43e0-b43b-93b8d4ccce86" },
+      { label: "1 Month", price: "$49.99", period: "/ month", url: "https://penguinby.sellhub.cx/product/arcraiderspromonth/", cryptoUrl: "https://mainnet.demo.btcpayserver.org/payment-requests/d0448884-fff3-40f4-bec2-341c4d9fde1f" },
     ],
     highlights: ["Player & Loot ESP", "Smart aim control", "Custom settings"],
     details: {
@@ -121,9 +121,9 @@ export const products = [
     desc: "Premium R6 access with ESP, recoil control, profiles, and direct support.",
     longDesc: "A compact premium package built for fast fulfillment, clean setup, and reliable customer access.",
     pricing: [
-      { label: "1 Day", price: "$6.99", period: "/ day", url: "https://moneymotion.io/pay/1F8452EDBF" },
-      { label: "1 Week", price: "$24.99", period: "/ week", url: "https://moneymotion.io/pay/l70tIkYW74" },
-      { label: "1 Month", price: "$49.99", period: "/ month", url: "https://moneymotion.io/pay/sc7sUBky7F" },
+      { label: "1 Day", price: "$6.99", period: "/ day", url: "https://penguinby.sellhub.cx/product/penguinbydevproductr6day/", cryptoUrl: "https://mainnet.demo.btcpayserver.org/payment-requests/438223b7-9fd7-4138-bb4d-b7342b11f0f7" },
+      { label: "1 Week", price: "$24.99", period: "/ week", url: "https://penguinby.sellhub.cx/product/penguinbydevproductr6week/", cryptoUrl: "https://mainnet.demo.btcpayserver.org/payment-requests/8ad6fbab-7e7b-43e0-b43b-93b8d4ccce86" },
+      { label: "1 Month", price: "$49.99", period: "/ month", url: "https://penguinby.sellhub.cx/product/penguinbydevproductr6month/", cryptoUrl: "https://mainnet.demo.btcpayserver.org/payment-requests/d0448884-fff3-40f4-bec2-341c4d9fde1f" },
     ],
     highlights: ["Advanced ESP & Aimbot", "No recoil spread", "Daily updates"],
     details: {
